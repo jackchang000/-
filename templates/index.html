@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日喝水計算器</title>
+</head>
+<body>
+    <h1>每日喝水計算器</h1>
+    
+    <form method="POST">
+        <label for="weight">請輸入你的體重 (kg):</label>
+        <input type="number" id="weight" name="weight" step="0.1" required>
+        <button type="submit">計算每日所需水量</button>
+    </form>
+
+    {% if required_water is not none %}
+        <h2>你的每日喝水標準是：{{ required_water }} cc</h2>
+    {% endif %}
+
+    <h2>喝水紀錄</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>時間</th>
+                <th>地點</th>
+                <th>理由</th>
+                <th>水量 (cc)</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record.name }}</td>
+                <td>{{ record.time }}</td>
+                <td>{{ record.location }}</td>
+                <td>{{ record.reason }}</td>
+                <td>{{ record.amount }}</td>
+                <td>
+                    <a href="{{ url_for('edit', id=record.id) }}">編輯</a>
+                    <a href="{{ url_for('delete', id=record.id) }}">刪除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('add') }}">新增喝水紀錄</a>
+</body>
+</html>
